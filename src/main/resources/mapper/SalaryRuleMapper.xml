@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.SalaryRuleDao">
+
+    <update id="updateSalaryRule" parameterType="SalaryRulePO">
+        update salary_rule set
+        department_salary = #{departmentSalary},
+        salary_computation = #{salaryComputation},
+        salary_delivery = #{salaryDelivery}
+        where department = #{department} and department_level = #{departmentLevel};
+    </update>
+
+    <select id="getSalaryRule" resultType="SalaryRulePO">
+        select * from salary_rule
+        where department = #{d} and department_level = #{dl};
+    </select>
+
+    <select id="getAllSalaryRules" resultType="SalaryRulePO">
+        select * from salary_rule;
+    </select>
+
+    <resultMap id="SalaryRulePO" type="com.nju.edu.erp.model.po.salary.SalaryRulePO">
+        <result column="department" property="department"></result>
+        <result column="department_level" property="departmentLevel"></result>
+        <result column="department_salary" property="departmentSalary"></result>
+        <result column="salary_computation" property="salaryComputation"></result>
+        <result column="salary_delivery" property="salaryDelivery"></result>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.SalaryBillDao">
+
+    <select id="getSalaryBill" resultMap="SalaryBillPO">
+        select * from salary_bill where id = #{id} and date = #{date};
+    </select>
+
+    <insert id="addSalaryBill" parameterType="com.nju.edu.erp.model.po.salary.SalaryBillPO">
+        insert into salary_bill (date, id, attendance, audit)
+        values ( #{date}, #{id}, #{attendance}, #{state} );
+    </insert>
+
+    <select id="getAllSalaryBills" resultType="SalaryBillPO">
+        select s.audit as state,s.id as id,s.date as date,s.attendance as attendance
+        from salary_bill s;
+    </select>
+
+    <update id="updateSalaryBill">
+        update salary_bill set
+        audit = #{state}
+        where id = #{id} and date = #{date};
+    </update>
+
+    <resultMap id="SalaryBillPO" type="com.nju.edu.erp.model.po.salary.SalaryBillPO">
+        <id column="date" property="date"></id>
+        <id column="id" property="id"></id>
+        <result column="attendance" property="attendance"></result>
+        <result column="audit" property="state"></result>
+    </resultMap>
+
+</mapper>

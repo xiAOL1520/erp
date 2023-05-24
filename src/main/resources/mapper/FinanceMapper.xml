@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.FinanceDao">
+    <select id="querySaleDetail" resultType="com.nju.edu.erp.model.po.FinanceSaleDetailPO">
+        select '销售出货' as Type,s.create_time as date,p.name as productName,p.type as productType,sc.quantity as quantity,sc.unit_price as unitPrice,sc.total_price as totalAmount
+        from sale_sheet s,sale_sheet_content sc,product p
+        where sc.sale_sheet_id=s.id and s.state='审批完成' and sc.pid=p.id
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="productName!=null">
+            and p.name=#{productName}
+        </if>
+        <if test="customerId!=0">
+            and s.supplier=#{customerId}
+        </if>
+        <if test="salesman!=null">
+            and s.salesman=#{salesman}
+        </if>
+    </select>
+
+    <select id="queryWarehouseManage" resultType="com.nju.edu.erp.model.po.financeManageProcess.FinanceWarehousePO">
+        select '入库单' as type,s.id as id,s.operator as operator,s.create_time as createTime,s.purchase_sheet_id as sheetId,s.state as state
+        from warehouse_input_sheet s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+        union
+        select '出库单' as type,s.id as id,s.operator as operator,s.create_time as createTime,s.sale_sheet_id as sheetId,s.state as state
+        from warehouse_output_sheet s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+    </select>
+
+    <select id="querySaleManage" resultType="com.nju.edu.erp.model.po.financeManageProcess.FinanceSalePO">
+        select '销售单' as type,s.id as id,s.supplier as supplier,s.salesman as salesman,s.operator as operator,s.remark as remark,s.raw_total_amount as rawTotalAmount,s.discount as discount,s.voucher_amount as voucherAmount,s.final_amount as finalAmount,s.state as state,s.create_time as createTime
+        from sale_sheet s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="customerId!=0">
+            and s.supplier=#{customerId}
+        </if>
+        <if test="salesman!=null">
+            and s.salesman=#{salesman}
+        </if>
+    </select>
+
+    <select id="queryPurchaseManage" resultType="com.nju.edu.erp.model.po.financeManageProcess.FinancePurchasePO">
+        select '进货单' as type,s.id as id,s.supplier as supplier,s.operator as operator,s.remark as remark,s.total_amount as totalAmount,s.state as state,s.create_time as createTime
+        from purchase_sheet s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="customerId!=0">
+            and s.supplier=#{customerId}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+        union
+        select '进货退货单' as type,s.id as id,ps.supplier as supplier,s.operator as operator,s.remark as remark,s.total_amount as totalAmount,s.state as state,s.create_time as createTime
+        from purchase_returns_sheet s,purchase_sheet ps
+        where s.purchase_sheet_id=ps.id
+        <if test="beginTime!=null and endTime!=null">
+            and s.create_time>=#{beginTime} and s.create_time&lt;=#{endTime}
+        </if>
+        <if test="customerId!=0">
+            and ps.supplier=#{customerId}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+    </select>
+
+    <select id="queryFinancialManage" resultType="com.nju.edu.erp.model.po.financeManageProcess.FinanceFinancialPO">
+        select '收款单' as type,s.code as code,s.customerId as customerId,s.operator as operator,s.sum as sum,s.state as state,s.createTime as createTime
+        from finance_receive_bill s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.createTime>=#{beginTime} and s.createTime&lt;=#{endTime}
+        </if>
+        <if test="customerId!=0">
+            and s.customerId=#{customerId}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+        union
+        select '付款单' as type,s.code as code,s.customerId as customerId,s.operator as operator,s.sum as sum,s.state as state,s.createTime as createTime
+        from finance_pay_bill s
+        where 1=1
+        <if test="beginTime!=null and endTime!=null">
+            and s.createTime>=#{beginTime} and s.createTime&lt;=#{endTime}
+        </if>
+        <if test="customerId!=0">
+            and s.customerId=#{customerId}
+        </if>
+        <if test="operator!=null">
+            and s.operator=#{operator}
+        </if>
+    </select>
+</mapper>

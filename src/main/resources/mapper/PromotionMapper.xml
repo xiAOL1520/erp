@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.PromotionDao">
+
+    <insert id="addPromotion" parameterType="PromotionPO">
+        insert into promotion ( id, customer_level, min_piece, max_piece, start_date, end_date, discount, voucher )
+        values ( #{id}, #{customerLevel}, #{minPiece}, #{maxPiece}, #{startDate}, #{endDate}, #{discount}, #{voucher} );
+    </insert>
+
+    <delete id="deletePromotion">
+        delete from promotion where id = #{id};
+    </delete>
+
+    <select id="getAllPromotions" resultType="PromotionPO">
+        select * from promotion;
+    </select>
+
+    <resultMap id="PromotionPO" type="com.nju.edu.erp.model.po.PromotionPO">
+        <id column="id" property="id"></id>
+        <result column="customer_level" property="customerLevel"></result>
+        <result column="min_piece" property="minPiece"></result>
+        <result column="max_piece" property="maxPiece"></result>
+        <result column="start_date" property="startDate"></result>
+        <result column="end_date" property="endDate"></result>
+        <result column="discount" property="discount"></result>
+        <result column="voucher" property="voucher"></result>
+    </resultMap>
+
+</mapper>

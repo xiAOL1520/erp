@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.YearBonusDao">
+
+    <select id="getYearBonus" resultType="BigDecimal">
+        select year_bonus from year_bonus where id = #{id} and date = #{date};
+    </select>
+
+    <insert id="setYearBonus" parameterType="YearBonusPO">
+        insert into year_bonus ( id, date, year_bonus )
+        value ( #{id}, #{date}, #{yearBonus} );
+    </insert>
+
+    <update id="updateYearBonus">
+        update year_bonus set
+        year_bonus = #{yearBonus}
+        where id = #{id} and date = #{date};
+    </update>
+
+    <select id="getAllYearBonus" resultType="YearBonusPO">
+        select * from year_bonus where date = #{date};
+    </select>
+
+    <resultMap id="YearBonusPO" type="com.nju.edu.erp.model.po.salary.YearBonusPO">
+        <id column="id" property="id"></id>
+        <id column="date" property="date"></id>
+        <result column="year_bonus" property="yearBonus"></result>
+    </resultMap>
+
+</mapper>

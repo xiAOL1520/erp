@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.EmployeeDao">
+    <insert id="setEmployee" parameterType="com.nju.edu.erp.model.po.EmployeePO">
+        insert into employee (id, name, sex, birthday, phone, department, department_level, basic_salary, department_salary, salary_computation, salary_delivery )
+        values ( #{id}, #{name}, #{sex}, #{birthday}, #{phone}, #{department}, #{departmentLevel}, #{basicSalary}, #{departmentSalary}, #{salaryComputation}, #{salaryDelivery} ) ;
+    </insert>
+
+    <select id="getEmployeeById" resultType="com.nju.edu.erp.model.po.EmployeePO">
+        select * from employee where id = #{id};
+    </select>
+
+    <update id="updateEmployee">
+        update employee set
+        name = #{name},
+        sex = #{sex},
+        birthday = #{birthday},
+        phone = #{phone},
+        department = #{department},
+        department_level = #{departmentLevel},
+        basic_salary = #{basicSalary},
+        department_salary = #{departmentSalary},
+        salary_computation = #{salaryComputation},
+        salary_delivery = #{salaryDelivery}
+        where id = #{id};
+    </update>
+
+    <delete id="deleteEmployee">
+        delete from employee where id = #{id};
+    </delete>
+
+    <select id="getAllEmployees" resultType="EmployeePO">
+        select * from employee;
+    </select>
+
+    <select id="getLatestId" resultType="Integer">
+        select id from employee order by id desc limit 1;
+    </select>
+
+    <resultMap id = "EmployeePO" type = "com.nju.edu.erp.model.po.EmployeePO">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="sex" property="sex"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="phone" property="phone"></result>
+        <result column="department" property="department"></result>
+        <result column="department_level" property="departmentLevel"></result>
+        <result column="basic_salary" property="basicSalary"></result>
+        <result column="department_salary" property="departmentSalary"></result>
+        <result column="salary_computation" property="salaryComputation"></result>
+        <result column="salary_delivery" property="salaryDelivery"></result>
+    </resultMap>
+
+</mapper>

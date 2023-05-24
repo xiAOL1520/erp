@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nju.edu.erp.dao.bankDao">
+
+    <update id="updateOne" parameterType="bankPO">
+        update bank
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="remainingSum!=null">remainingSum=#{remainingSum},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="findAll" resultMap="bankPO">
+        select * from bank
+    </select>
+
+    <select id="findOneById" resultMap="bankPO">
+        select * from bank
+        where id=#{id}
+    </select>
+
+    <select id="findByName" resultMap="bankPO">
+        select * from bank
+        where name like
+        concat('%',#{name},'%')
+    </select>
+
+    <insert id="addOne" useGeneratedKeys="true" keyProperty="id">
+        insert into bank(name,remainingSum)
+        values (#{name},#{remainingSum})
+    </insert>
+
+    <delete id="deleteOneById">
+        delete from bank where id=#{id}
+    </delete>
+
+    <update id="updateAfterDelete">
+        update bank
+        set id=id-1
+        where id>#{id}
+    </update>
+
+    <update id="updateAfter">
+        alter table bank AUTO_INCREMENT 1
+    </update>
+
+    <resultMap id="bankPO" type="com.nju.edu.erp.model.po.bankPO">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="remainingSum" property="remainingSum"></result>
+    </resultMap>
+</mapper>

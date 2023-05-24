@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.AttendanceDao">
+
+    <insert id="clockIn">
+        insert into attendance (id, date)
+        values ( #{id}, #{date} );
+    </insert>
+    <select id="getAttendance" resultType="String">
+        select date from attendance where id = #{id};
+    </select>
+
+    <select id="getById" resultType="String">
+        select * from attendance where id = #{id};
+    </select>
+
+    <select id="getByDate" resultType="Integer">
+        select * from attendance where date = #{date};
+    </select>
+
+    <resultMap id="AttendancePO" type="com.nju.edu.erp.model.po.salary.AttendancePO">
+        <id column="id" property="id"></id>
+        <id column="date" property="date"></id>
+    </resultMap>
+
+</mapper>

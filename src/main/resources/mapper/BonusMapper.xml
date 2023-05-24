@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nju.edu.erp.dao.BonusDao">
+
+    <select id="getBonus" resultType="BigDecimal">
+        select bonus from bonus where id = #{id} and date = #{date};
+    </select>
+
+    <insert id="setBonus">
+        insert into bonus (id, date, bonus)
+        values (#{id}, #{date}, #{bonus});
+    </insert>
+
+    <update id="updateBonus">
+        update bonus set
+        bonus = #{bonus}
+        where id = #{id} and date = #{date};
+    </update>
+
+    <resultMap id="BonusPO" type="com.nju.edu.erp.model.po.salary.BonusPO">
+        <id column="id" property="id"></id>
+        <id column="date" property="date"></id>
+        <result column="bonus" property="bonus"></result>
+    </resultMap>
+
+</mapper>
